@@ -4,18 +4,21 @@ CamTape uses the FFmpeg libraries under the GNU LGPL version 3 or later.
 They are separate, dynamically linked frameworks, so you can build a
 modified version and run CamTape with it on your own iPhone.
 
-Each CamTape release has a **relink kit** on this repository's Releases
-page: `CamTape-<version>-<build>-relink-kit.zip`. It contains:
+Each CamTape release has a **relink kit** on the Releases page of
+<https://github.com/yoshisakata/camtape-ffmpeg>: `CamTape-<version>-<build>-relink-kit.zip`. It contains:
 
 - `Runner.app` — that release of CamTape before App Store encryption, with
   its signature removed
 - `BUILD-INFO.txt` — the FFmpeg build that release ships (sources, options,
   sha256 of every library)
+- `KIT-INFO.txt` — the version of CamTape in the kit and the sha256 of its
+  binaries
 - `relink.sh` and this README
 
 ## What you need
 
-- A Mac with Xcode and the Homebrew tools listed in the main README
+- A Mac with Xcode and the Homebrew tools listed in the README of
+  <https://github.com/yoshisakata/camtape-ffmpeg>
 - An Apple developer account (a free Apple ID may work, with Xcode's limits
   on free provisioning; this has not been tested)
 - A development provisioning profile and signing identity for a bundle ID
@@ -25,9 +28,12 @@ page: `CamTape-<version>-<build>-relink-kit.zip`. It contains:
 
 ## Steps
 
-1. **Build your FFmpeg.** In this repository, with your changes as patches:
+1. **Build your FFmpeg.** In a clone of <https://github.com/yoshisakata/camtape-ffmpeg>, with your changes
+   as patches:
 
    ```bash
+   git clone https://github.com/yoshisakata/camtape-ffmpeg.git
+   cd camtape-ffmpeg
    ./build.sh --patches my-patches
    ```
 
@@ -39,9 +45,10 @@ page: `CamTape-<version>-<build>-relink-kit.zip`. It contains:
 2. **Put it into CamTape and sign it.**
 
    ```bash
-   relink-kit/relink.sh \
-     --app CamTape-relink-kit/Runner.app \
-     --frameworks out/<stamp> \
+   cd CamTape-<version>-<build>-relink-kit
+   ./relink.sh \
+     --app Runner.app \
+     --frameworks <path to camtape-ffmpeg>/out/<stamp> \
      --bundle-id com.example.mycamtape \
      --profile ~/Library/MobileDevice/Provisioning\ Profiles/<yours>.mobileprovision \
      --device <your iPhone's UDID>
