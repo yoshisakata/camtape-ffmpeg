@@ -36,8 +36,9 @@ each with `ios-arm64` and `ios-arm64-simulator` slices.
 | `verify.sh` | Checks a build: licence string, configure options, required components, architectures, install names |
 | `required-components.txt` | Filters, codecs and formats the app needs (and GPL ones that must be absent) |
 | `overrides/scripts/apple/harfbuzz.sh` | Replaces ffmpeg-kit's HarfBuzz script (HarfBuzz 11 has no autotools; this uses its CMake build) |
+| `LICENSE`, `licenses/GPL-3.0.txt` | This repository's licence (LGPL v3 or later) and the GPL v3 it refers to |
 | `relink-kit/` | `relink.sh` and the guide for running CamTape with your own build (see `relink-kit/README.md`) |
-| `tools/package-release.sh` | Zips the xcframeworks, computes their Swift Package Manager checksums and gathers the source tarballs for a GitHub release |
+| `tools/package-release.sh` | Zips the xcframeworks (without Mac metadata), computes their Swift Package Manager checksums and gathers the source tarballs, licence texts and `NOTICE.txt` for a GitHub release |
 | `tools/git-shim/git` | The ffmpeg-kit scripts expect a git checkout. This answers `git describe` with the release tag, restores files for `git checkout <path>` from a clean copy of the verified sources (the scripts undo their per-architecture edits this way), and refuses everything else, so no source is fetched by git |
 
 The only changes to the ffmpeg-kit tag are made by `build.sh` in the work
@@ -101,13 +102,23 @@ You can also replace a tarball and its sha256 in `sources.lock`.
 
 ## Licences
 
-The full texts of the LGPL v3 and the GPL v3 (which the LGPL v3 refers to)
-are in the FFmpeg source (`COPYING.LGPLv3`, `COPYING.GPLv3`) and in the
-ffmpeg-kit source (`LICENSE`).
+This repository (the scripts, the HarfBuzz script override, the patch and
+the relink kit) is licensed under the **GNU LGPL version 3 or later**
+(SPDX: `LGPL-3.0-or-later`), the same as ffmpeg-kit, whose HarfBuzz script
+`overrides/scripts/apple/harfbuzz.sh` replaces. The full text is in
+`LICENSE`; the GPL v3, which the LGPL v3 refers to, is in
+`licenses/GPL-3.0.txt`.
+
+The libraries built here keep their own licences (see "What is built").
+The full texts are also in the sources: FFmpeg (`COPYING.LGPLv3`,
+`COPYING.GPLv3`, `LICENSE.md`), ffmpeg-kit (`LICENSE`), FreeType
+(`docs/FTL.TXT`), HarfBuzz (`COPYING`), libpng (`LICENSE`), dlg (`LICENSE`).
+Each release has them as `license-*` files, with a `NOTICE.txt`.
 
 ## Releases
 
-Each CamTape release that changes FFmpeg has a GitHub release here with:
+Each CamTape release that changes FFmpeg has a GitHub release here, tagged
+`ffmpeg-<FFmpeg version>-<n>` (for example `ffmpeg-n8.1.2-1`), with:
 
 - the eight `*.xcframework.zip` files CamTape's Swift package downloads
   (checksums in `checksums.txt`)
@@ -115,6 +126,11 @@ Each CamTape release that changes FFmpeg has a GitHub release here with:
   repository's scripts and patches at that tag: the complete source for
   the shipped libraries
 - `BUILD-INFO.txt` and `VERIFY.txt` for that build
+- `NOTICE.txt` and the licence texts (`license-*`)
+
+`tools/package-release.sh` makes all of these. **A published zip is never
+replaced**: CamTape's `Package.swift` pins each zip's checksum, so a
+changed build gets a new release and a new tag.
 
 Each CamTape App Store release also adds its relink kit
 (`CamTape-<version>-<build>-relink-kit.zip`, see `relink-kit/README.md`).
