@@ -97,7 +97,11 @@ Components and their licences:
   libpng 1.6.40                    libpng License        license-libpng-LICENSE.txt
   dlg 72dfcc8                      Boost Software License 1.0  license-dlg-LICENSE.txt
 
-FreeType, HarfBuzz, libpng and dlg are linked statically into libavfilter.
+FreeType, HarfBuzz and libpng are linked statically into libavfilter
+(confirmed in the built library). dlg is part of the FreeType source used
+by this build (FreeType's subprojects/dlg); it has not been confirmed to
+be included in libavfilter. Its licence is included because it is part of
+that source.
 gnu-config and gas-preprocessor are build tools only; they are not part
 of the libraries.
 NOTICE
