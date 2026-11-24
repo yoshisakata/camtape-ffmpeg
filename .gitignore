@@ -1,0 +1,7 @@
+# Large or machine-specific; published as release assets instead.
+downloads/
+out/
+release/
+work/
+build-run-*.txt
+.DS_Store

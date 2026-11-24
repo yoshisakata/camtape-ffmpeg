@@ -1,0 +1,10 @@
+# name | file in downloads/ | url | sha256
+# Every source the build uses. build.sh refuses anything whose sha256 differs.
+ffmpeg-kit|ffmpeg-kit-android-apple-8.1.2.tar.gz|https://github.com/sk3llo/ffmpeg-kit/archive/refs/tags/android-apple-8.1.2.tar.gz|0b7151ff18273538fb1188e12ad0febb7b7f2f33155ae2bcdf9c736022b88236
+ffmpeg|arthenica-FFmpeg-n8.1.2.tar.gz|https://github.com/arthenica/FFmpeg/archive/refs/tags/n8.1.2.tar.gz|9fd092511605bbebafe095ea6d38d9e40f34d12f7386e1258372df8be0576eb7
+gnu-config|gnu-config-v20210814.tar.gz|https://github.com/arthenica/gnu-config/archive/refs/tags/v20210814.tar.gz|e7b34eb510ebb76790b2c8e4bfec75393fc5ba121b90f9011a196591f8973228
+gas-preprocessor|gas-preprocessor-v20210917.pl|https://github.com/arthenica/gas-preprocessor/raw/v20210917/gas-preprocessor.pl|78ad06351ac8be513fb6e6291d9bb8f667899625c2649093e3b08f59fae950a2
+freetype|freetype2-VER-2-13-3.tar.gz|https://github.com/arthenica/freetype2/archive/refs/tags/VER-2-13-3.tar.gz|c9f777284ab454e575d3b21cf04c90aeb681e954a9b6406203f711207c302562
+harfbuzz|harfbuzz-11.3.3.tar.gz|https://github.com/arthenica/harfbuzz/archive/refs/tags/11.3.3.tar.gz|5563e1eeea7399c37dc7f0f92a89bbc79d8741bbdd134d22d2885ddb95944314
+libpng|libpng-v1.6.40.tar.gz|https://github.com/arthenica/libpng/archive/refs/tags/v1.6.40.tar.gz|62d25af25e636454b005c93cae51ddcd5383c40fa14aa3dae8f6576feb5692c2
+dlg|dlg-72dfcc858c040c54a6a0b88fcb7e70ee186d3167.tar.gz|https://github.com/nyorain/dlg/archive/72dfcc858c040c54a6a0b88fcb7e70ee186d3167.tar.gz|f46472bea5854cf3c738f0e7aea90d7b0645629ec78fdf7a67bf7696955e7446

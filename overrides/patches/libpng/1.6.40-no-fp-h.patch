@@ -1,0 +1,14 @@
+libpng 1.6.40: do not include <fp.h> when TARGET_OS_MAC is defined.
+Current Apple SDKs define TARGET_OS_MAC but have no <fp.h>. Same change as upstream libpng 1.6.41.
+
+--- a/pngpriv.h	2023-06-22 04:06:40
++++ b/pngpriv.h	2026-11-24 12:42:57
+@@ -515,7 +515,7 @@
+ #  include <float.h>
+ 
+ #  if (defined(__MWERKS__) && defined(macintosh)) || defined(applec) || \
+-    defined(THINK_C) || defined(__SC__) || defined(TARGET_OS_MAC)
++    defined(THINK_C) || defined(__SC__)
+    /* We need to check that <math.h> hasn't already been included earlier
+     * as it seems it doesn't agree with <fp.h>, yet we should really use
+     * <fp.h> if possible.

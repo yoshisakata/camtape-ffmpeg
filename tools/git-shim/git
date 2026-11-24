@@ -1,0 +1,57 @@
+#!/bin/bash
+# Stand-in for git during the build. The ffmpeg-kit scripts expect a git
+# checkout; this build uses verified tarballs instead (sources.lock).
+#
+#  describe        answers with the release tag, so version strings match
+#                  the upstream releases (FFmpeg "n8.1.2", ffmpeg-kit
+#                  "android-apple-8.1.2").
+#  checkout PATH   restores PATH from the clean copy of the sources that
+#                  build.sh made before building (CAMTAPE_PRISTINE). The
+#                  scripts edit FFmpeg's build files for each architecture
+#                  and use this to undo the edits. Only paths inside the
+#                  source tree (CAMTAPE_SRC) are restored.
+#  anything else   refused. No source is ever fetched by git.
+
+case "$1" in
+describe)
+  case "$PWD" in
+    */src/ffmpeg|*/src/ffmpeg/*) echo "n8.1.2" ;;
+    *) echo "android-apple-8.1.2" ;;
+  esac
+  exit 0
+  ;;
+checkout)
+  shift
+  if [[ -z "${CAMTAPE_SRC:-}" || -z "${CAMTAPE_PRISTINE:-}" ]]; then
+    echo "git shim: refused 'checkout $*' (no clean copy)" >&2
+    exit 1
+  fi
+  rc=0
+  for arg in "$@"; do
+    case "$arg" in -*) continue ;; esac
+    case "$arg" in /*) abs="$arg" ;; *) abs="$PWD/$arg" ;; esac
+    abs="${abs%/}"
+    # Compare real paths (/tmp is /private/tmp on macOS).
+    [[ -e "$abs" ]] && abs="$(cd "$(dirname "$abs")" && pwd -P)/$(basename "$abs")"
+    src_real="$(cd "$CAMTAPE_SRC" && pwd -P)"
+    abs="${abs/#$src_real/$CAMTAPE_SRC}"
+    case "$abs" in
+      "$CAMTAPE_SRC"/*) ;;
+      *) echo "git shim: refused checkout outside the sources: $arg" >&2; rc=1; continue ;;
+    esac
+    rel="${abs#"$CAMTAPE_SRC"/}"
+    clean="$CAMTAPE_PRISTINE/$rel"
+    if [[ -d "$clean" ]]; then
+      mkdir -p "$abs" && cp -R "$clean/." "$abs/"
+    elif [[ -f "$clean" ]]; then
+      cp "$clean" "$abs"
+    else
+      echo "git shim: no clean copy of $rel" >&2; rc=1
+    fi
+    echo "git shim: restored $rel" >&2
+  done
+  exit $rc
+  ;;
+esac
+echo "git shim: refused '$*'" >&2
+exit 1

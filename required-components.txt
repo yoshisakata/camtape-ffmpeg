@@ -1,0 +1,57 @@
+# Components CamTape uses. verify.sh fails if any is missing from the build.
+# (Taken from the ffmpeg arguments CamTape builds; extra entries are harmless.)
+filter drawtext
+filter lut
+filter avgblur
+filter xfade
+filter acrossfade
+filter noise
+filter vignette
+filter curves
+filter gblur
+filter blend
+filter colorchannelmixer
+filter colorspace
+filter setparams
+filter setsar
+filter format
+filter scale
+filter crop
+filter pad
+filter transpose
+filter hflip
+filter vflip
+filter split
+filter overlay
+filter fade
+filter trim
+filter concat
+filter select
+filter thumbnail
+filter fps
+filter highpass
+filter lowpass
+filter acompressor
+filter color
+encoder h264_videotoolbox
+encoder aac
+encoder mjpeg
+decoder h264
+decoder hevc
+decoder aac
+decoder mjpeg
+decoder png
+hwaccel h264_videotoolbox
+hwaccel hevc_videotoolbox
+muxer mp4
+muxer mov
+muxer image2
+demuxer mov
+demuxer concat
+demuxer image2
+protocol file
+# Must NOT be present (GPL-only in FFmpeg, or GPL libraries).
+absent filter eq
+absent filter boxblur
+absent encoder libx264
+absent encoder libx265
